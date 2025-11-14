@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce Portal</title>
+  <style>
+    body {
+      background: #e3f2fd;
+      font-family: Arial, sans-serif;
+      margin: 0;
+          }
+    nav {
+      background: #333;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #ffcc00;
+    }
+    section {
+      display: none;
+      padding: 20px;
+      background: white;
+      margin: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    section.active {
+      display: block;
+    }
+    .product {
+      display: inline-block;
+      width: 200px;
+      margin: 10px;
+      padding: 10px;
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .product img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    form input, form textarea {
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    form button {
+      padding: 10px;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    form button:hover {
+      background: #ffcc00;
+      color: black;
+    }
+    .wishlist, .orders {
+      background: #eef;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" onclick="showSection('home')">Home</a>
+    <a href="#" onclick="showSection('products')">Products</a>
+    <a href="#" onclick="showSection('login')">Login</a>
+    <a href="#" onclick="showSection('register')">Register</a>
+    <a href="#" onclick="showSection('wishlist')">Wishlist</a>
+    <a href="#" onclick="showSection('orders')">Orders</a>
+    <a href="#" onclick="showSection('contact')">Contact Us</a>
+    <a href="#" onclick="showSection('about')">About Us</a>
+  </nav>
+
+  <!-- HOME -->
+  <section id="home" class="active">
+    <h1>Welcome to WishCart</h1>
+    <p>Explore our amazing products and offers!</p>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXxEzXDPNQG2JSMOQU0LGh_Y3qkmUOv2lTOd7Je3cZzrYxielMyul6pTi4Vj6pP0NWKas&usqp=CAU">
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products">
+    <h2>Our Products</h2>
+    <div class="product">
+      <img src="https://tse2.mm.bing.net/th/id/OIP.ZdokGWETuV-ruKEAInJmIwHaHa?pid=Api&P=0&h=180" alt="Laptop">
+      <h3>Laptop</h3>
+      <p>Price: ₹60,000</p>
+      <button onclick="addToWishlist('Laptop')">Add to Wishlist</button>
+    </div>
+    <div class="product">
+      <img src="https://tse4.mm.bing.net/th/id/OIP.ZYugh_uTYIYZQ9E0Y0Uv4QHaEK?pid=Api&P=0&h=180" alt="Phone">
+      <h3>Smartphone</h3>
+      <p>Price: ₹30,000</p>
+      <button onclick="addToWishlist('Smartphone')">Add to Wishlist</button>
+    </div>
+    <div class="product">
+      <img src="https://tse2.mm.bing.net/th/id/OIP.E0HqFb3QUflcVW2tgRROUwHaHa?pid=Api&P=0&h=180s">
+      <h3>Headphones</h3>
+      <p>Price: ₹2,000</p>
+      <button onclick="addToWishlist('Headphones')">Add to Wishlist</button>
+    </div>
+
+    <h3>Customer Reviews</h3>
+    <textarea id="reviewText" placeholder="Write your review..."></textarea>
+    <button onclick="addReview()">Submit Review</button>
+    <div id="reviewList"></div>
+  </section>
+
+  <!-- LOGIN -->
+  <section id="login">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+  </section>
+
+  <!-- REGISTER -->
+  <section id="register">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input type="text" id="fullname" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+      <button type="submit">Register</button>
+    </form>
+  </section>
+
+  <!-- WISHLIST -->
+  <section id="wishlist">
+    <h2>Your Wishlist</h2>
+    <div id="wishlistItems" class="wishlist"></div>
+  </section>
+
+  <!-- ORDERS -->
+  <section id="orders">
+    <h2>Your Orders</h2>
+    <div class="orders">
+      <p>No recent orders found.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <form id="contactForm">
+      <input type="text" id="contactName" placeholder="Your Name" required>
+      <input type="email" id="contactEmail" placeholder="Your Email" required>
+      <textarea id="contactMsg" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <h2>About Us</h2>
+    <p>E-Shop is a demo e-commerce portal designed for learning web development.
+      You can explore, register, login, and interact with sample products.</p>
+  </section>
+
+  <script>
+        function showSection(id) {
+      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+    }
+
+        document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      let name = document.getElementById("fullname").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let pass = document.getElementById("password").value;
+      let confirm = document.getElementById("confirmPassword").value;
+
+      if (!name || !email || !pass || !confirm) {
+        alert("All fields are required!");
+        return;
+      }
+      if (!/^[^ ]+@[^ ]+\.[a-z]{2,3}$/.test(email)) {
+        alert("Invalid email format!");
+        return;
+      }
+      if (pass.length < 6) {
+        alert("Password must be at least 6 characters long!");
+        return;
+      }
+      if (pass !== confirm) {
+        alert("Passwords do not match!");
+        return;
+      }
+      alert("Registration Successful!");
+    });
+
+        document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      let email = document.getElementById("loginEmail").value.trim();
+      let pass = document.getElementById("loginPassword").value.trim();
+      if (!email || !pass) {
+        alert("Please fill in both fields!");
+        return;
+      }
+      alert("Login Successful!");
+    });
+
+       const wishlist = [];
+    function addToWishlist(item) {
+      wishlist.push(item);
+      displayWishlist();
+      alert(item + " added to wishlist!");
+    }
+    function displayWishlist() {
+      document.getElementById("wishlistItems").innerHTML = wishlist.map(i => `<p>❤️ ${i}</p>`).join("");
+    }
+
+        function addReview() {
+      const reviewText = document.getElementById("reviewText").value.trim();
+      if (reviewText === "") {
+        alert("Please enter your review!");
+        return;
+      }
+      const div = document.createElement("div");
+      div.innerHTML = "⭐ " + reviewText;
+      document.getElementById("reviewList").appendChild(div);
+      document.getElementById("reviewText").value = "";
+    }
+
+        document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Your message has been sent!");
+      this.reset();
+    });
+  </script>
+
+</body>
+</html>
